@@ -4,7 +4,6 @@ import { Container, Typography } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import axios from "axios";
 import moment from "moment/moment";
 import "moment/min/locales"
 import { useState, useEffect } from "react";
@@ -13,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 
 // Redux imports
 import {useSelector,useDispatch} from 'react-redux'
-import {changeState} from './weatherApiSlice'
 import { fetchWeather } from "./weatherApiSlice";
 
 moment.locale("ar");
@@ -50,7 +48,7 @@ function App() {
       dispatch(fetchWeather())
 
      i18n.changeLanguage(local)
-  },[])
+  },[dispatch,i18n,local])
 
   useEffect(() => {
     setDate(moment().format('MMMM Do YYYY, h:mm:ss a'))
@@ -128,11 +126,11 @@ function App() {
                         alignItems: "center",
                       }}
                     >
-                      {isLoad === true ?<CircularProgress style={{color:"white"}}/> : ""}
+                      {isLoad &&<CircularProgress style={{color:"white"}}/> }
                       <Typography variant="h2" style={{ textAlign: "right" }}>
                         {temp.number}
                       </Typography>
-                      <img src={temp.icon} />
+                      <img src={temp.icon} alt="icon"/>
                     </div>
                     {/* ==Temp== */}
 
